@@ -58,7 +58,7 @@ module.exports = function(app) {
 		if (req.session.user==null){
 			res.redirect('/');
 		}else {
-
+			res.redirect('/www/show_page.html');
 		}
 	});
 

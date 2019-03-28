@@ -54,7 +54,14 @@ module.exports = function(app) {
 /*
 	control panel
 */
-	
+	app.get('/show_page',function (req,res) {
+		if (req.session.user==null){
+			res.redirect('/');
+		}else {
+
+		}
+	});
+
 	app.get('/home', function(req, res) {
 		if (req.session.user == null){
 			res.redirect('/');

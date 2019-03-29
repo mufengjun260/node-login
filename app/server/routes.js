@@ -8,6 +8,17 @@ module.exports = function(app) {
 /*
 	login & logout
 */
+	/*app.use(function (req, res, next) {
+		var url = req.originalUrl;//获取浏览器中当前访问的nodejs路由地址；
+		var userCookies=req.cookies.userCookies; //获取客户端存取的cookie,userCookies为cookie的名称；//有时拿不到cookie值，可能是因为拦截器位置放错，获取该cookie的方式是依赖于nodejs自带的cookie模块，//因此，获取cookie必须在1,2步之后才能使用，否则拿到的cookie就是undefined.
+		console.log("123"+url);
+		console.log("app获得cookie"+req.cookies.userCookies+"真假11111："+(req.cookies.userCookies==undefined));
+
+		if(url!='/'&&(userCookies==undefined)){ //通过判断控制用户登录后不能访问登录页面；
+			return res.redirect('/');//页面重定向；
+		}
+		next();
+	});*/
 
 	app.get('/', function(req, res){
 	// check if the user has an auto login key saved in a cookie //
@@ -68,6 +79,12 @@ module.exports = function(app) {
 			req.session.user=null;
 		}
 	});
+
+	app.get('/*',function (req,res) {
+		if (req.session.user == null){
+			res.redirect('/');
+		}
+	})
 
 	app.get('/home', function(req, res) {
 		if (req.session.user == null){

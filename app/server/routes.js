@@ -19,7 +19,7 @@ module.exports = function(app) {
 				if (o){
 					AM.autoLogin(o.user, o.pass, function(o){
 						req.session.user = o;
-						res.redirect('/home');
+						res.redirect('/www/index.html');
 					});
 				}	else{
 					res.render('login', { title: 'Hello - Please Login To Your Account' });
@@ -46,6 +46,12 @@ module.exports = function(app) {
 		});
 	});
 
+	app.get('/logout', function(req, res){
+		res.clearCookie('login');
+		req.session.destroy(function(e){ res.status(200).send('ok'); });
+	})
+
+
 	app.post('/logout', function(req, res){
 		res.clearCookie('login');
 		req.session.destroy(function(e){ res.status(200).send('ok'); });
@@ -58,7 +64,8 @@ module.exports = function(app) {
 		if (req.session.user==null){
 			res.redirect('/');
 		}else {
-			res.redirect('/www/show_page.html');
+			res.redirect('/www/index.html');
+			req.session.user=null;
 		}
 	});
 
